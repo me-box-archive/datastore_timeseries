@@ -1,16 +1,23 @@
-/* http server setup */
-var http = require('http');
-var dispatcher = require('httpdispatcher');
-var jsonfile = require('jsonfile');
-var express = require('express');
-var bodyParser = require('body-parser');
 
+var express = require('express');
+var path = require('path');
+var logger = require('morgan');
+var bodyParser = require('body-parser');
+var influxClient = require('./database/influx.js');
+var databox_directory = require("./utils/databox_directory.js");
 
 var api = require('./routes/api');
-var debug = require('debug')('datastore_wirelessthings:server');
-const PORT=8090; 
-app.set('port', port);
+
+
+var debug = require('debug')('datastore_timeseries:server');
+var http = require('http');
+
+
 var app = express();
+
+const PORT = 8080; 
+app.set('port', PORT);
+
 
 var jsonParser = bodyParser.json()
 
@@ -95,20 +102,18 @@ function onError(error) {
 
 server.on('error', onError);
 server.on('listening', onListening);
-server.listen(, function(){
+
+// register datastore with directory
+
+databox_directory.register_datastore("datastore_timeseries", ":8080/api", function (result) {
+  console.log(result);
+  influxClient.get().createDatabase("databox", function (err, result) { })
+  server.listen(PORT , function(){
     console.log("Server listening on: http://localhost:%s", PORT);
+  });
+
+
 });
-
-db.connect(db.MODE_PRODUCTION, function(err) {
-  if (err) {
-    console.log('Unable to connect to Influx db.')
-    process.exit(1)
-  } else {
-      console.log('database connection active')
-    
-  }
-})
-
 
 
 module.exports = app;

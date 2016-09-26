@@ -1,9 +1,15 @@
-version '2'
-
+version: '2'
 services: 
-  datastore_wirelessthings:
-    build: datastore_wirelessthings
+  datastore_timeseries_database:
+    build: database
     ports: 
+          - "8086"  
 
-  driver_wirelessthings:
-    build: driver_wirelessthings
+  datastore_timeseries_app:
+    build: app
+    links : 
+          - datastore_timeseries_database
+    ports: 
+          - "8080:8080"
+
+    

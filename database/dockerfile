@@ -1,0 +1,2 @@
+FROM tutum/influxdb:latest
+EXPOSE 8086
