@@ -104,16 +104,23 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 // register datastore with directory
-
-databox_directory.register_datastore("datastore_timeseries", ":8080/api", function (result) {
-  console.log(result);
+var registerCallback = function (err, result) {
+  if(err) {
+    console.log(err);
+    console.log("Can not register datastore with directory! waiting 5s before retrying");
+    setTimeout(register,5000)
+    return;
+  }
   influxClient.get().createDatabase("databox", function (err, result) { })
   server.listen(PORT , function(){
     console.log("Server listening on: http://localhost:%s", PORT);
   });
+}
 
-
-});
-
+var register = function() {
+  databox_directory.register_datastore("datastore-timeseries", ":8080/api", registerCallback);
+}
+//
+register();
 
 module.exports = app;

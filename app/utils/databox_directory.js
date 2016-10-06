@@ -17,9 +17,9 @@ exports.register_datastore = function(hostname, api_url, done) { // requires a d
 
 	request(options, function (error, response, body) {
   		if (!error && response.statusCode == 200) {
-    	 return done(body);
+    	 return done(error,body);
   		}
-  		return done(error);
+  		return done(error,body);
 	});
 }
 
