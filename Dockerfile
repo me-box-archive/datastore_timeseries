@@ -42,9 +42,12 @@ RUN curl --insecure -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VER
   && ln -s /usr/local/bin/node /usr/local/bin/nodejs
 
 #node app config
-COPY app/ .
+COPY ./app/ /app/
 EXPOSE 8080
+
+COPY package.json .
 RUN npm install
+RUN npm run clean
 
 COPY docker-entrypoint.sh .
 RUN chmod +x ./docker-entrypoint.sh
