@@ -6,7 +6,7 @@ the datastore exposes a http based api on port 8080 withe following end points
 
     Method: POST
     URL: /api/reading
-    Parameters: Raw JSON body containing elements as follows {sensor_id: <sensor ID>, vendor_id: <vendor ID>, sensor_value:  <sensor value>}
+    Parameters: Raw JSON body containing elements as follows {sensor_id: <sensor ID>, vendor_id: <vendor ID>, value:  <sensor value>}
     Notes: The vendor_id and sensor_id must be valid and related entries in the databox directory in order for the reading to be accepted
     
     Method: POST
