@@ -1,0 +1,27 @@
+{
+  "name": "datastore-timeseries",
+  "version": "1.0.0",
+  "description": "Datbox datastore for timeseries data",
+  "scripts": {
+    "start": "node ./app/app.js",
+    "build": "docker build -t databox/datastore-timeseries .",
+    "deploy": "docker tag databox/datastore-timeseries registry.upintheclouds.org/datastore-timeseries && docker push registry.upintheclouds.org/datastore-timeseries",
+    "clean": "node ./node_modules/modclean/bin/modclean.js -p ./node_modules/ -r",
+    "getshell": "docker exec -i -t datastore-timeseries /bin/bash",
+    "kill": "docker kill datastore-timeseries",
+    "attach": "docker attach datastore-timeseries",
+    "shell": "docker run -i -t databox/datastore-timeseries /bin/bash",
+    "local": "docker run -i -t databox/datastore-timeseries"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "httpdispatcher": "^1.0.0",
+    "influx": "^4.2.0",
+    "jade": "^1.11.0",
+    "jsonfile": "^2.3.1",
+    "morgan": "^1.7.0",
+    "mqtt": "^1.11.2",
+    "modclean":""
+  }
+}
