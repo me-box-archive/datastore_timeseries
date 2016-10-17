@@ -2,9 +2,28 @@ var express = require('express');
 var router = express.Router();
 var influxClient = require('../database/influx.js');
 
+var interceptOutput = require("intercept-stdout");
+
+
+//Capture std out for later use in the /debug endpoint 
+var log = [];
+var unhook_intercept = interceptOutput(function(txt) {
+    log.push(txt);
+    if(log.length > 100) {
+        log.shift();
+    }
+
+});
+
+
+
 router.get("/", function(req, res, next) {
     res.send({"message":"test"});
  
+});
+
+router.get("/debug", function(req, res, next) {
+    res.send(JSONstringify(log));
 });
 
 
