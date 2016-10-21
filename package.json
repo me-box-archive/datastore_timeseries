@@ -23,8 +23,6 @@
     "intercept-stdout": "^0.1.2",
     "jade": "^1.11.0",
     "jsonfile": "^2.3.1",
-    "modclean": "",
-    "morgan": "^1.7.0",
-    "mqtt": "^1.11.2"
+    "modclean": ""
   }
 }

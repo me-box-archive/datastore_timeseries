@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var influxClient = require('../database/influx.js');
-
 var interceptOutput = require("intercept-stdout");
-
+var databox_directory = require("../utils/databox_directory.js");
+var request = require('request');
 
 //Capture std out for later use in the /debug endpoint 
 var log = [];
@@ -15,7 +15,30 @@ var unhook_intercept = interceptOutput(function(txt) {
 
 });
 
-
+router.post('/actuate', function(req, res, next) {
+    var actuator_id = req.body.actuator_id;     
+    databox_directory.get_driver_hostname_from_actuator_id(actuator_id)
+    .then((hostname) =>{
+        var options = {
+            uri: 'http://'+hostname+':8080/api/actuate',
+            method: 'POST',
+            json: {
+                actuator_id: actuator_id,
+                method:req.body.method,
+                data:req.body.data
+            }
+        };
+        console.log("Passing through call to /actuate", options);
+        request(options, function (error, response, body) {
+            if (error) {
+                res.send(error);
+                return;
+            }
+            res.send(body);
+        });
+    })
+    .catch((err)=>{ console.log('[ERROR] /actuate ', err); res.send(error);})
+});
 
 router.get("/", function(req, res, next) {
     res.send({"message":"test"});
@@ -79,5 +102,7 @@ router.post('/reading/range', function(req, res, next) {
         res.send(results);
     })
 });
+
+
 
 module.exports = router;
