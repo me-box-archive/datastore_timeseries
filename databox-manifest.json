@@ -31,5 +31,9 @@
   ],
 
   "resource-requirements": {
-  }
+  },
+
+  "volumes": [
+              "/data"
+  ]
 }

@@ -30,8 +30,6 @@ ENV SSL_CERT **None**
 
 VOLUME ["/data"]
 
-
-
 ENV NPM_CONFIG_LOGLEVEL info
 ENV NODE_VERSION 6.7.0
 
@@ -42,7 +40,7 @@ RUN curl --insecure -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VER
   && ln -s /usr/local/bin/node /usr/local/bin/nodejs
 
 #node app config
-COPY ./app/ /app/
+COPY ./src/ /src/
 EXPOSE 8080
 
 COPY package.json .

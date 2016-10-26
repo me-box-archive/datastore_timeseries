@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Datbox datastore for timeseries data",
   "scripts": {
-    "start": "node ./app/app.js",
+    "start": "node ./src/main.js",
     "build": "docker build -t databox/datastore-timeseries .",
     "deploy": "docker tag databox/datastore-timeseries registry.upintheclouds.org/datastore-timeseries && docker push registry.upintheclouds.org/datastore-timeseries",
     "build-arm": "docker build -f Dockerfile-arm -t databox/datastore-timeseries-arm .",
@@ -18,11 +18,16 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
-    "httpdispatcher": "^1.0.0",
-    "influx": "^4.2.0",
-    "intercept-stdout": "^0.1.2",
-    "jade": "^1.11.0",
-    "jsonfile": "^2.3.1",
-    "modclean": ""
+    "modclean": "",
+    "nedb": "^1.8.0",
+    "promise": "^7.1.1",
+    "request": "^2.75.0",
+    "ws": "^1.1.1",
+    "influx": "^4.2.0"
+  },
+  "devDependencies": {
+    "assert": "^1.4.1",
+    "mocha": "^3.1.2",
+    "supertest": "^2.0.0"
   }
 }
