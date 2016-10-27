@@ -5,18 +5,18 @@ var assert = require('assert');
 
 
 var recordSet = []; // store res from can POST /data/since to test /data/range
+var lastRecord = {};
 
 describe('tests /api/data/since', function() {
 	var data = {
-	    	"data": {new:"data", since:"world"},
+	    	"data": 42,
 	    	"sensor_id": 11,
 	    	"vendor_id": 1
 		}; 
-	var lastRecord = {};
 	
 	it("Adds records posted to /api/data", function(done) {
 		var data = {
-	    	"data": {test:"data", hello:"world"},
+	    	"data": 51,
 	    	"sensor_id": 11,
 	    	"vendor_id": 1
 		}; 
@@ -25,7 +25,7 @@ describe('tests /api/data/since', function() {
 			.send(data)
 			.expect(200)
 			.end(function(err,result){
-				assert.deepEqual(result.body.data, {test:"data", hello:"world"});
+				assert.deepEqual(result.body.data, 51);
 				done()
 			});
 	});
@@ -40,7 +40,7 @@ describe('tests /api/data/since', function() {
 						assert.fail("","",err);
 						done()
 					}
-					assert.deepEqual(result.body[0].data, {test:"data", hello:"world"});
+					assert.deepEqual(result.body[0].data, 51);
 					lastRecord = result.body[0]
 					done()
 					console.log(lastRecord.timestamp);
@@ -49,7 +49,7 @@ describe('tests /api/data/since', function() {
 
 	it("Adds records posted to /api/data", function(done) {
 		var data = {
-	    	"data": {test:"data", hello:"world"},
+	    	"data": 45,
 	    	"sensor_id": 11,
 	    	"vendor_id": 1
 		}; 
@@ -58,14 +58,14 @@ describe('tests /api/data/since', function() {
 			.send(data)
 			.expect(200)
 			.end(function(err,result){
-				assert.deepEqual(result.body.data, {test:"data", hello:"world"});
+				assert.deepEqual(result.body.data, 45);
 				done()
 			});
 	});
 
 	it("Adds records posted to /api/data", function(done) {
 		var data = {
-	    	"data": {test:"data", hello:"world0"},
+	    	"data": 46,
 	    	"sensor_id": 11,
 	    	"vendor_id": 1
 		}; 
@@ -74,14 +74,14 @@ describe('tests /api/data/since', function() {
 			.send(data)
 			.expect(200)
 			.end(function(err,result){
-				assert.deepEqual(result.body.data, {test:"data", hello:"world0"});
+				assert.deepEqual(result.body.data, 46);
 				done()
 			});
 	});
 
 	it("Adds records posted to /api/data", function(done) {
 		var data = {
-	    	"data": {test:"data", hello:"world1"},
+	    	"data": 47,
 	    	"sensor_id": 11,
 	    	"vendor_id": 1
 		}; 
@@ -90,14 +90,14 @@ describe('tests /api/data/since', function() {
 			.send(data)
 			.expect(200)
 			.end(function(err,result){
-				assert.deepEqual(result.body.data, {test:"data", hello:"world1"});
+				assert.deepEqual(result.body.data, 47);
 				done()
 			});
 	});
 
 	it("Adds records posted to /api/data", function(done) {
 		var data = {
-	    	"data": {test:"data", hello:"world2"},
+	    	"data": 48,
 	    	"sensor_id": 11,
 	    	"vendor_id": 1
 		}; 
@@ -106,14 +106,14 @@ describe('tests /api/data/since', function() {
 			.send(data)
 			.expect(200)
 			.end(function(err,result){
-				assert.deepEqual(result.body.data, {test:"data", hello:"world2"});
+				assert.deepEqual(result.body.data, 48);
 				done()
 			});
 	});
 
 	it("Adds records posted to /api/data", function(done) {
 		var data = {
-	    	"data": {test:"data", hello:"world3"},
+	    	"data": 49,
 	    	"sensor_id": 11,
 	    	"vendor_id": 1
 		}; 
@@ -122,14 +122,14 @@ describe('tests /api/data/since', function() {
 			.send(data)
 			.expect(200)
 			.end(function(err,result){
-				assert.deepEqual(result.body.data, {test:"data", hello:"world3"});
+				assert.deepEqual(result.body.data, 49);
 				done()
 			});
 	});
 
 	it("Adds records posted to /api/data", function(done) {
 		var data = {
-	    	"data": {test:"data", hello:"world4"},
+	    	"data": 50,
 	    	"sensor_id": 11,
 	    	"vendor_id": 1
 		}; 
@@ -138,7 +138,7 @@ describe('tests /api/data/since', function() {
 			.send(data)
 			.expect(200)
 			.end(function(err,result){
-				assert.deepEqual(result.body.data, {test:"data", hello:"world4"});
+				assert.deepEqual(result.body.data, 50);
 				done()
 			});
 	});
@@ -169,7 +169,7 @@ describe('tests /api/data/since', function() {
 
 describe('tests /api/data/range', function() {
 	
-		it('can POST /api/data/range and retrive data ',function(done){
+		it('can POST /api/data/range and retrieve data ',function(done){
 		
 			var data = {
 	    	"start": recordSet[1].timestamp,

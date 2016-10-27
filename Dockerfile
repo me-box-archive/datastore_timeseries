@@ -41,6 +41,7 @@ RUN curl --insecure -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VER
 
 #node app config
 COPY ./src/ /src/
+COPY ./test/ /test/
 EXPOSE 8080
 
 COPY package.json .

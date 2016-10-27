@@ -14,40 +14,63 @@ module.exports = function (expressApp) {
     });
 
     router.post("/", function(req, res, next) {
-      
-        console.log(req.body);
-        var sensor_value = req.body.value;
-        var sensor_id = req.body.sensor_id;
-        var vendor_id = req.body.vendor_id;
 
-        //verify that ID is global databox id and is associated with vendor id
+        var sensor_value = req.body.data;
+        var sensor_id = req.body.sensor_id;
+
+        var data = {
+          "data": req.body.data,
+          "sensor_id": req.body.sensor_id,
+          "vendor_id": req.body.vendor_id,
+        };
 
         influxClient.get().writePoint("databox", {time: new Date(), value: sensor_value}, {sensorId: sensor_id}, function(err,response) { 
-            res.send({"message": "all is ok"});
+            if (err) {
+              console.log("[Error]:: /data/", data, err);
+              res.send(err);
+            }
+            res.send(data);
         });
 
-        app.broadcastDataOverWebSocket(req.body.sensor_id,sensor_value,'ts');
-
+        app.broadcastDataOverWebSocket(sensor_id,data,'ts');
     });
 
     router.post('/latest', function(req, res, next) {
         var sensor_id = req.body.sensor_id;
-       
-        //verify that ID is global databox id and is associated with vendor id
-        
+
         var query = "select last(value) as value from databox where sensorId='"+sensor_id+"'";
         influxClient.get().query(query, function (err, results) { 
-            res.send(results);
+            if (err) {
+            console.log("[Error]:: /data/latest", sensor_id);
+                res.send(err);
+                return;
+            }
+            console.log(results);
+            var doc =  results[0].map((item)=>{ 
+                item.timestamp = new Date(item.time).getTime(); 
+                item.data = item.value; 
+                return item
+              });
+            res.send(doc);
         })
     });
 
     router.post('/since', function(req, res, next) {
         var sensor_id = req.body.sensor_id;
-        var start = req.body.start;
-        //verify that ID is global databox id and is associated with vendor id
-        var query = "select value from databox where sensorId='"+sensor_id+"' AND time > \"" + start + "\"";
+        var timestamp = req.body.timestamp;
+        var query = "select value from databox where sensorId='"+sensor_id+"' AND time > " + timestamp + "ms";
+        console.log("query:: ", query);
         influxClient.get().query(query, function (err, results) { 
-            res.send(results);
+            if (err) {
+              console.log("[Error]:: /data/since", sensor_id, timestamp, err);
+              res.send(err);
+            }
+            var doc =  results[0].map((item)=>{ 
+                item.timestamp = new Date(item.time).getTime(); 
+                item.data = item.value; 
+                return item
+              });
+            res.send(doc);
         });
     });
 
@@ -55,13 +78,22 @@ module.exports = function (expressApp) {
         var sensor_id = req.body.sensor_id;
         var start = req.body.start;
         var end = req.body.end;
-        
-        //verify that ID is global databox id and is associated with vendor id
-        var query = "select value from databox where sensorId='"+sensor_id+"' AND time > \"" + start + "\" AND time < \""+end+"\"";
+
+        var query = "select value from databox where sensorId='"+sensor_id+"' AND time >=  "+ start +"ms AND time <= " + end + "ms";
+        console.log("query:: ", query);
         influxClient.get().query(query, function (err, results) { 
-            res.send(results);
-        });
-    });
+            if (err) {
+              console.log("[Error]:: /data/range", sensor_id, start, end, err);
+              res.send(err);
+            }
+            var doc =  results[0].map((item)=>{ 
+                item.timestamp = new Date(item.time).getTime(); 
+                item.data = item.value; 
+                return item
+              });
+            res.send(doc);
+        });        
+      });
 
    return router;
 } 
