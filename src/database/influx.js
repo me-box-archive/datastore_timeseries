@@ -1,7 +1,7 @@
 var influx = require('influx')
 
 var client = influx({
-	  host: 'datastore_timeseries_database',
+	  host: 'localhost',
 	  port: 8086,
 	  protocol: 'http',
 	  database: 'databox'
