@@ -13,6 +13,7 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+var DATABOX_LOCAL_NAME = process.env.DATABOX_LOCAL_NAME;
 
 //TODO app.use(Macaroon checker);
 
@@ -41,7 +42,7 @@ influxClient.get().createDatabase("databox", function (err, result) { })
     console.log("Server listening on: http://localhost:%s", 8080);
 });
 
-databox_directory.register_datastore('datastore-timeseries', ':8080/api')
+databox_directory.register_datastore(DATABOX_LOCAL_NAME, ':8080/api')
   .then( (ids)=>{
 	   
   })
