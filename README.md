@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/me-box/datastore_timeseries.svg?branch=master)](https://travis-ci.org/me-box/datastore_timeseries)
+
 #Timeseries Datastore
 
 This is a timeseries datastore for the databox
