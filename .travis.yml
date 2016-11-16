@@ -1,14 +1,13 @@
 sudo: required
 language: node_js
+  - "6"
 
 services:
   - docker
 
 before_install:
-  - docker build -t databox/timeseries .
-  - docker run -d databox/timeseries
+  - docker pull influxdb
+  - docker run -d -p 8083:8083 -p 8086:8086  influxdb
   - docker ps
 
-sctipt:
-  - docker exec -it databox/timeseries /bin/sh -c "npm test"
 
