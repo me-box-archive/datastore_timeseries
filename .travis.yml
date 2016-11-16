@@ -6,4 +6,9 @@ services:
 
 before_install:
   - docker build -t databox/timeseries .
-  - docker run databox/timeseries /bin/sh -c "npm test"
+  - docker run -d databox/timeseries
+  - docker ps
+
+sctipt:
+  - docker exec -it databox/timeseries /bin/sh -c "npm test"
+
