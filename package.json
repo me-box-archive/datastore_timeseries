@@ -2,13 +2,16 @@
   "name": "datastore-timeseries",
   "version": "1.0.0",
   "description": "Datbox datastore for timeseries data",
+  "config": {
+    "registry": "registry.iotdatabox.com"
+  },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha",
     "start": "node ./src/main.js",
     "build": "docker build -t databox/datastore-timeseries .",
-    "deploy": "docker tag databox/datastore-timeseries registry.iotdatabox.com/datastore-timeseries && docker push registry.iotdatabox.com/datastore-timeseries",
+    "deploy": "docker tag databox/datastore-timeseries $npm_package_config_registry/datastore-timeseries && docker push $npm_package_config_registry/datastore-timeseries",
     "build-arm": "docker build -f Dockerfile-arm -t databox/datastore-timeseries-arm .",
-    "deploy-arm": "docker tag databox/datastore-timeseries-arm registry.iotdatabox.com/datastore-timeseries-arm && docker push registry.iotdatabox.com/datastore-timeseries-arm",
+    "deploy-arm": "docker tag databox/datastore-timeseries-arm $npm_package_config_registry/datastore-timeseries-arm && docker push $npm_package_config_registry/datastore-timeseries-arm",
     "clean": "node ./node_modules/modclean/bin/modclean.js -p ./node_modules/ -r",
     "getshell": "docker exec -i -t datastore-timeseries /bin/bash",
     "kill": "docker kill datastore-timeseries",
@@ -17,13 +20,18 @@
     "local": "docker run -i -t databox/datastore-timeseries"
   },
   "dependencies": {
+    "basic-auth": "^1.1.0",
     "body-parser": "^1.15.2",
+    "bunyan": "^1.8.5",
+    "bunyan-middleware": "^0.5.1",
     "express": "^4.14.0",
+    "influx": "^4.2.0",
+    "macaroons.js": "^0.3.6",
     "modclean": "",
+    "nedb": "^1.8.0",
     "promise": "^7.1.1",
     "request": "^2.75.0",
-    "ws": "^1.1.1",
-    "influx": "^4.2.0"
+    "ws": "^1.1.1"
   },
   "devDependencies": {
     "assert": "^1.4.1",

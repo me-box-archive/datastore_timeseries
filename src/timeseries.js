@@ -2,7 +2,6 @@
 module.exports = function (expressApp) {
     
     var influxClient = require('./database/influx.js');
-    var databox_directory = require("./utils/databox_directory.js");
     var request = require('request');
 
     var router = require('express').Router();
